@@ -1,9 +1,12 @@
+import tinymce from "tinymce";
+
 const conf = {
-  appwriteURL: import.meta.env.VITE_APPWRITE_URL,
-  appwriteProject: import.meta.env.VITE_APPWRITE_PROJECT,
-  appwriteDatabase: import.meta.env.VITE_APPWRITE_DATABASE,
-  appwriteBucket: import.meta.env.VITE_APPWRITE_BUCKET,
-  appwriteCollection: import.meta.env.VITE_APPWRITE_COLLECTION,
+  appwriteUrl: String(import.meta.env.VITE_APPWRITE_URL),
+  appwriteProjectId: String(import.meta.env.VITE_APPWRITE_PROJECT),
+  appwriteDatabaseId: String(import.meta.env.VITE_APPWRITE_DATABASE),
+  appwriteCollectionId: String(import.meta.env.VITE_APPWRITE_COLLECTION),
+  appwriteBucketId: String(import.meta.env.VITE_APPWRITE_BUCKET),
+  tinymceApiKey: String(import.meta.env.VITE_TINYMCE_API_KEY),
 };
 
 export default conf;

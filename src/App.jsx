@@ -1,52 +1,38 @@
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import './App.css'
-import React from 'react'
-import { useState,useEffect } from 'react'
-import { Provider, useDispatch } from 'react-redux'
-import authService from './appwrite/auth.js'
-import Header from './components/Header/Header.jsx'
-import { login, logout } from './store/authSlice.js'
-import { Footer } from './components/index.js'
+import authService from "./appwrite/auth"
+import {login, logout} from "./store/authSlice"
+import { Footer, Header } from './components'
+import { Outlet } from 'react-router-dom'
 
 function App() {
-
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    
     authService.getCurrentUser()
-    .then((user) => {
-      if (user) {
-        dispatch(login(user))
-      }
-      else{
+    .then((userData) => {
+      if (userData) {
+        dispatch(login({userData}))
+      } else {
         dispatch(logout())
       }
     })
-    .finally(()=>setLoading(false))
-  },[])
-
-  if(loading){
-    return <><div className='min-h-screen flex flex-wrap content-between bg-gray-400'>Loading...</div></>
-  }
-  return (
-    <>
-    
-    <div className='min-h-screen  flex flex-wrap content-between bg-gray-400'>
+    .finally(() => setLoading(false))
+  }, [])
+  
+  return !loading ? (
+    <div className='min-h-screen flex flex-wrap content-between bg-gray-400'>
       <div className='w-full block'>
-        <Header/>
-          <main>
-            TODO: Outlet
-
-          </main>
-        <Footer/>
+        <Header />
+        <main>
+        TODO:  <Outlet />
+        </main>
+        <Footer />
       </div>
-      </div>
-    
-    </>
-  )
+    </div>
+  ) : null
 }
 
 export default App
