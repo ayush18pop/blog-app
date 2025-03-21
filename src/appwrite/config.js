@@ -14,8 +14,10 @@ export class Service {
     this.bucket = new Storage(this.client);
   }
 
-  async createPost({ title, slug, content, featuredImage, status, userID }) {
+  async createPost({ title, content, featuredImage, status, userID }) {
     try {
+      if (!userID) throw new Error("User ID is required to create a post");
+
       return await this.databases.createDocument(
         conf.appwriteDatabaseId,
         conf.appwriteCollectionId,
@@ -25,7 +27,7 @@ export class Service {
           content,
           featuredImage,
           status,
-          userID, // Make sure this matches your database field name exactly
+          userID,
         }
       );
     } catch (error) {

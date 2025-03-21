@@ -20,6 +20,10 @@ export default function PostForm({ post }) {
 
     const submit = async (data) => {
         try {
+            if (!userData?.$id) {
+                throw new Error('User not authenticated');
+            }
+
             if (post) {
                 // Update post
                 const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
@@ -39,15 +43,19 @@ export default function PostForm({ post }) {
             } else {
                 // Create post
                 const file = await appwriteService.uploadFile(data.image[0]);
-
+                console.log('Content length:', data.content?.length);
+                console.log('Content:', data.content);
+                console.log('user id', userData.$id);
                 if (file) {
                     const dbPost = await appwriteService.createPost({
-                        ...data,
+                        title: data.title,
+                        slug: data.slug,
+                        content: data.content,
+                        status: data.status || 'active',
                         featuredImage: file.$id,
-                        userID: Math.random().toString(36).substring(7),
-                         
+                        userID: userData.$id, 
                     });
-
+                    
                     if (dbPost) {
                         navigate(`/post/${dbPost.$id}`);
                     }

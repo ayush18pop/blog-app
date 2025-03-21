@@ -11,8 +11,8 @@ export default function Post() {
     const navigate = useNavigate();
 
     const userData = useSelector((state) => state.auth.userData);
-
-    const isAuthor = post && userData ? post.userId === userData.$id : false;
+   
+    const isAuthor = post && userData ? post.userID === userData.$id : false;
 
     useEffect(() => {
         if (slug) {
@@ -22,6 +22,10 @@ export default function Post() {
             });
         } else navigate("/");
     }, [slug, navigate]);
+    // console.log("user id", userData.$id);
+    // console.log("post author id", post.userID);
+    console.log("isAuthor", isAuthor);
+    // console.log("post", post.$id);
 
     const deletePost = () => {
         appwriteService.deletePost(post.$id).then((status) => {
