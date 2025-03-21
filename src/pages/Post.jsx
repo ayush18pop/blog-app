@@ -17,13 +17,14 @@ export default function Post() {
     useEffect(() => {
         if (slug) {
             appwriteService.getPost(slug).then((post) => {
+                
+    console.log("user id", userData.$id);
+    console.log("post author id", post.userID);
                 if (post) setPost(post);
                 else navigate("/");
             });
         } else navigate("/");
     }, [slug, navigate]);
-    // console.log("user id", userData.$id);
-    // console.log("post author id", post.userID);
     console.log("isAuthor", isAuthor);
     // console.log("post", post.$id);
 
@@ -60,7 +61,7 @@ export default function Post() {
                     )}
                 </div>
                 <div className="w-full mb-6">
-                    <h1 className="text-2xl font-bold">{post.title}</h1>
+                    <h1 className="text-2xl font-bold">{post.title} and  post auth is{post.userID} you are {userData.$id}</h1>
                 </div>
                 <div className="browser-css">
                     {parse(post.content)}
